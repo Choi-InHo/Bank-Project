@@ -1,0 +1,24 @@
+version: "3.8"
+services:
+  bank-redis:
+    container_name: bank-redis
+    build:
+      dockerfile: Dockerfile
+      context: ./redis
+    image: cih8400/bank-redis
+    ports:
+      - "6379:6379"
+  bank-database:
+    container_name: bank-database
+    build:
+      dockerfile: Dockerfile
+      context: ./database
+    image: cih8400/bank-database
+    environment:
+      - MYSQL_database=bank
+      - MYSQL_ROOT_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
+    volumes:
+      - ./database/config:/etc/mysql/conf.d
+      - ./database/init:/docker-entrypoint-initdb.d
+    ports:
+      - "3306:3306"
