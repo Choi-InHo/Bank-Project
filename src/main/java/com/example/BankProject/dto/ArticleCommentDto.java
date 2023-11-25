@@ -1,8 +1,11 @@
 package com.example.BankProject.dto;
 
+import com.example.BankProject.domain.Article;
 import com.example.BankProject.domain.ArticleComment;
+import com.example.BankProject.domain.User;
 import lombok.Value;
 
+import javax.swing.text.html.parser.Entity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -37,6 +40,15 @@ public record ArticleCommentDto (
                 entity.getId(),
                 entity.getArticle().getId(),
                 entity.getContent()
+        );
+    }
+
+    public ArticleComment toEntity(Article article, User user) {
+        return ArticleComment.of(
+                user,
+                content,
+                article
+
         );
     }
 }

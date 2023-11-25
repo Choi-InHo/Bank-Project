@@ -57,6 +57,8 @@ public class Article extends AuditingFields{
     public static Article of(User user, String title, String content) {
         return new Article(user, title, content);
     }
+
+
 }
 
 
