@@ -2,45 +2,55 @@ package com.example.BankProject.dto;
 
 import com.example.BankProject.domain.Article;
 import com.example.BankProject.domain.User;
-import lombok.Value;
 
-import java.io.Serializable;
+
 import java.time.LocalDateTime;
 import java.util.Set;
+import java.util.stream.Collectors;
 
-/**
- * DTO for {@link com.example.BankProject.domain.Article}
- */
+public record ArticleDto(
+        Long id,
+        UserDto userDto,
+        String title,
+        String content,
+        Set<HashtagDto> hashtagDtos,
+        LocalDateTime createdAt,
+        String createdBy,
+        LocalDateTime modifiedAt,
+        String modifiedBy
+) {
 
-public record ArticleDto (
-    LocalDateTime createdAt,
-    UserDto userDto,
-    String createdBy,
-    LocalDateTime modifiedAt,
-    String modifiedBy,
-    Long id,
-    String title,
-    String content
-){
+    public static ArticleDto of(UserDto userAccountDto, String title, String content, Set<HashtagDto> hashtagDtos) {
+        return new ArticleDto(null, userAccountDto, title, content, hashtagDtos, null, null, null, null);
+    }
 
-    public static ArticleDto from(Article article) {
+    public static ArticleDto of(Long id, UserDto userAccountDto, String title, String content, Set<HashtagDto> hashtagDtos, LocalDateTime createdAt, String createdBy, LocalDateTime modifiedAt, String modifiedBy) {
+        return new ArticleDto(id, userAccountDto, title, content, hashtagDtos, createdAt, createdBy, modifiedAt, modifiedBy);
+    }
+
+    public static ArticleDto from(Article entity) {
         return new ArticleDto(
-                article.getCreatedAt(),
-                UserDto.from(article.getUser()),
-                article.getCreatedBy(),
-                article.getModifiedAt(),
-                article.getModifiedBy(),
-                article.getId(),
-                article.getTitle(),
-                article.getContent()
+                entity.getId(),
+                UserDto.from(entity.getUser()),
+                entity.getTitle(),
+                entity.getContent(),
+                entity.getHashtags().stream()
+                        .map(HashtagDto::from)
+                        .collect(Collectors.toUnmodifiableSet())
+                ,
+                entity.getCreatedAt(),
+                entity.getCreatedBy(),
+                entity.getModifiedAt(),
+                entity.getModifiedBy()
         );
     }
 
-    public Article toEntity(User user) {
+    public Article toEntity(User userAccount) {
         return Article.of(
-                user,
+                userAccount,
                 title,
                 content
         );
     }
+
 }

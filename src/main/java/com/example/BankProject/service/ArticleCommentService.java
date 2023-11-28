@@ -30,7 +30,7 @@ public class ArticleCommentService {
 
     @Transactional(readOnly = true)
     public List<ArticleCommentDto> searchArticleComments(Long articleId) {
-        return articleCommentRepository.findByArticle_id(articleId)
+        return articleCommentRepository.findByArticle_Id(articleId)
                 .stream()
                 .map(ArticleCommentDto::from)
                 .toList();
@@ -40,8 +40,15 @@ public class ArticleCommentService {
         try {
             Article article = articleRepository.getReferenceById(articleCommentDto.articleId());
             User user = userRepository.getReferenceById(articleCommentDto.userDto().userId());
+            ArticleComment articleComment = articleCommentDto.toEntity(article, user);
 
-            articleCommentRepository.save(articleCommentDto.toEntity(article, user));
+            if (articleCommentDto.parentCommentId() != null) {
+                ArticleComment parentComment = articleCommentRepository.getReferenceById(articleCommentDto.parentCommentId());
+                parentComment.addChildComment(articleComment);
+            }else {
+                articleCommentRepository.save(articleComment);
+            }
+
         } catch (EntityNotFoundException e) {
             log.warn("댓글 저장 실패");
         }

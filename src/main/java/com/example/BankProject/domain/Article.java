@@ -5,10 +5,13 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.stereotype.Service;
 
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Getter
@@ -19,13 +22,13 @@ import java.util.Set;
         @Index(columnList = "createdAt"),
         @Index(columnList = "createdBy")
 })
-@EqualsAndHashCode(callSuper = true)
-public class Article extends AuditingFields{
+
+public class Article extends AuditingFields {
 
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
 
     @ManyToOne(optional = false) // optional을 넣으면 User가 없는 게시글은 존재할 수 없다는 의미
     @Setter
@@ -40,7 +43,17 @@ public class Article extends AuditingFields{
     @Column(nullable = false, length = 1000)
     private String content;
 
-    protected Article() {}
+    @ToString.Exclude
+    @JoinTable(
+            name = "article_hashtag",
+            joinColumns = @JoinColumn(name = "articleId"),
+            inverseJoinColumns = @JoinColumn(name = "hashtagId")
+    )
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private Set<Hashtag> hashtags = new LinkedHashSet<>();
+
+    protected Article() {
+    }
 
     @ToString.Exclude
     @OrderBy("createdAt")
@@ -58,7 +71,29 @@ public class Article extends AuditingFields{
         return new Article(user, title, content);
     }
 
+    public void addHashtag(Hashtag hashtag) {
+        this.getHashtags().add(hashtag);
+    }
 
+    public void addHashtags(Collection<Hashtag> hashtags) {
+        this.getHashtags().addAll(hashtags);
+    }
+
+    public void clearHashtags() {
+        this.getHashtags().clear();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Article that)) return false;
+        return this.getId() != null && this.getId().equals(that.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.getId());
+    }
 }
 
 

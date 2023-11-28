@@ -3,52 +3,53 @@ package com.example.BankProject.dto;
 import com.example.BankProject.domain.Article;
 import com.example.BankProject.domain.ArticleComment;
 import com.example.BankProject.domain.User;
-import lombok.Value;
 
-import javax.swing.text.html.parser.Entity;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
-/**
- * DTO for {@link com.example.BankProject.domain.ArticleComment}
- */
+public record ArticleCommentDto(
+        Long id,
+        Long articleId,
+        UserDto userDto,
+        Long parentCommentId,
+        String content,
+        LocalDateTime createdAt,
+        String createdBy,
+        LocalDateTime modifiedAt,
+        String modifiedBy
+) {
 
-public record ArticleCommentDto (
-    LocalDateTime createdAt,
-    UserDto userDto,
-    String createdBy,
-    LocalDateTime modifiedAt,
-    String modifiedBy,
-    Long id,
-    Long articleId,
-    String content
-
-){
-
-    public ArticleCommentDto of(Long articleId, UserDto userDto, String content) {
-        return new ArticleCommentDto(null, userDto, null, null, null, null, articleId, content);
+    public static ArticleCommentDto of(Long articleId, UserDto userDto, String content) {
+        return ArticleCommentDto.of(articleId, userDto, null, content);
     }
 
+    public static ArticleCommentDto of(Long articleId, UserDto userDto, Long parentCommentId, String content) {
+        return ArticleCommentDto.of(null, articleId, userDto, parentCommentId, content, null, null, null, null);
+    }
+
+    public static ArticleCommentDto of(Long id, Long articleId, UserDto userDto, Long parentCommentId, String content, LocalDateTime createdAt, String createdBy, LocalDateTime modifiedAt, String modifiedBy) {
+        return new ArticleCommentDto(id, articleId, userDto, parentCommentId, content, createdAt, createdBy, modifiedAt, modifiedBy);
+    }
 
     public static ArticleCommentDto from(ArticleComment entity) {
         return new ArticleCommentDto(
-                entity.getCreatedAt(),
-                UserDto.from(entity.getUser()),
-                entity.getCreatedBy(),
-                entity.getModifiedAt(),
-                entity.getModifiedBy(),
                 entity.getId(),
                 entity.getArticle().getId(),
-                entity.getContent()
+                UserDto.from(entity.getUser()),
+                entity.getParentCommentId(),
+                entity.getContent(),
+                entity.getCreatedAt(),
+                entity.getCreatedBy(),
+                entity.getModifiedAt(),
+                entity.getModifiedBy()
         );
     }
 
-    public ArticleComment toEntity(Article article, User user) {
+    public ArticleComment toEntity(Article article, User userAccount) {
         return ArticleComment.of(
-                user,
-                content,
-                article
-
+                article,
+                userAccount,
+                content
         );
     }
+
 }

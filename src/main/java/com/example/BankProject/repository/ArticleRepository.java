@@ -2,20 +2,42 @@ package com.example.BankProject.repository;
 
 
 import com.example.BankProject.domain.Article;
+import com.example.BankProject.domain.QArticle;
+import com.example.BankProject.repository.querydsl.ArticleRepositoryCustom;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.querydsl.binding.QuerydslBindings;
+import com.querydsl.core.types.dsl.DateTimeExpression;
+import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.stereotype.Repository;
+import com.querydsl.core.types.dsl.StringExpression;
 
 @RepositoryRestResource
 public interface ArticleRepository extends
-        JpaRepository<Article, Long>{
+        JpaRepository<Article, Long>,
+        ArticleRepositoryCustom,
+        QuerydslPredicateExecutor<Article>,
+        QuerydslBinderCustomizer<QArticle>{
 
     Page<Article> findByTitleContaining(String title, Pageable pageable);
     Page<Article> findByContentContaining(String content, Pageable pageable);
     Page<Article> findByUser_UserIdContaining(String userId, Pageable pageable);
     Page<Article> findByUser_NicknameContaining(String nickname, Pageable pageable);
 
-    void deleteByIdAndUserAccount_UserId(Long articleId, String userId);
+    void deleteByIdAndUser_UserId(Long articleId, String userId);
+
+    @Override //검색 기능 구현
+    default void customize(QuerydslBindings bindings, QArticle root) {
+        bindings.excludeUnlistedProperties(true);
+        bindings.including(root.title, root.content, root.hashtags, root.createdAt, root.createdBy);
+        bindings.bind(root.title).first(StringExpression::containsIgnoreCase);
+        bindings.bind(root.content).first(StringExpression::containsIgnoreCase);
+        bindings.bind(root.hashtags.any().hashtagName).first(StringExpression::containsIgnoreCase);
+        bindings.bind(root.createdAt).first(DateTimeExpression::eq);
+        bindings.bind(root.createdBy).first(StringExpression::containsIgnoreCase);
+    }
+
 }

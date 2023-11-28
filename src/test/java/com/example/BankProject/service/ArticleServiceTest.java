@@ -87,6 +87,12 @@ class ArticleServiceTest {
 
     }
 
+    @Test
+    @DisplayName("검색어 없이 게시글을 해시태그 검색하면, 빈 페이지를 반환한다.")
+    void givenNoSerachParameters_whenSearchingArticlesViaHashtag_thenReturnEmptyPage(){
+
+    }
+
     private Article createArticle(){
         Article article = Article.of(
                 createUserAccount(),

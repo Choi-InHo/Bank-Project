@@ -35,7 +35,7 @@ public class User extends AuditingFields {
 
     protected User(){}
 
-    private User(String userId, String userPassword, String email, String nickName, String memo) {
+    private User(String userId, String userPassword, String email, String nickname, String memo) {
         this.userId = userId;
         this.userPassword = userPassword;
         this.email = email;
