@@ -1,10 +1,10 @@
 -- 테스트 계정
 -- TODO: 테스트용이지만 비밀번호가 노출된 데이터 세팅. 개선하는 것이 좋을 지 고민해 보자.
 insert into user (user_id, user_password, nickname, email, memo, created_at, created_by, modified_at, modified_by) values
-    ('undaddasadassso3', '{noop}asdf1234', 'Uno', 'uno@mail.com', 'I am Uno.', now(), 'uno', now(), 'uno')
+    ('uno2', '{noop}asdf1234', 'Uno', 'undadasso121@email.com', 'I am Uno.', now(), 'uno', now(), 'uno')
 ;
 insert into user (user_id, user_password, nickname, email, memo, created_at, created_by, modified_at, modified_by) values
-    ('unddsdasdsaaso4', '{noop}asdf1234', 'Uno2', 'uno2@mail.com', 'I am Uno2.', now(), 'uno2', now(), 'uno2')
+    ('uno', '{noop}asdf1234', 'Uno2', 'unoddasas132@email.com', 'I am Uno2.', now(), 'uno2', now(), 'uno2')
 ;
 
 -- 123 게시글
@@ -573,33 +573,33 @@ Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odi
 ;
 
 
-# 300 댓글
-insert into article_comment (article_id, user_id, parent_comment_id, content, created_at, modified_at, created_by, modified_by) values
-                                                                                                                                    (370, 'uno', null, 'Quisque id justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros.', '2021-03-02 22:40:04', '2021-04-27 15:38:09', 'Lind', 'Orv'),
-                                                                                                                            (370, 'uno', null, 'In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.', '2021-05-07 23:57:29', '2021-04-03 21:55:11', 'Oliver', 'Graehme')
-;
-
--- 대댓글
-insert into article_comment (article_id, user_id, parent_comment_id, content, created_at, modified_at, created_by, modified_by) values
-                                                                                                                                    (370, 'uno', 1, '퍼가요~', '2021-03-02 22:40:04', '2021-04-27 15:38:09', 'Uno', 'Uno'),
-                                                                                                                                    (370, 'uno2', 1, '퍼가요~', '2021-03-03 22:40:04', '2021-04-27 15:38:09', 'Uno2', 'Uno2'),
-                                                                                                                                    (370, 'uno', 1, '또 퍼가요~', '2021-03-04 22:40:04', '2021-04-27 15:38:09', 'Uno', 'Uno'),
-                                                                                                                                    (370, 'uno', 1, '또또 퍼가요~', '2021-03-05 22:40:04', '2021-04-27 15:38:09', 'Uno', 'Uno')
-;
-
-insert into hashtag (hashtag_name, created_at, modified_at, created_by, modified_by) values
-                                                                                         ('edasdsd1', now(), now(), 'uno', 'uno'),
-                                                                                         ('mdasdsdson1', now(), now(), 'uno', 'uno'),
-                                                                                         ('cdasdsdia1', now(), now(), 'uno', 'uno'),
-                                                                                         ('ddasdsdenrod1', now(), now(), 'uno', 'uno'),
-
-                                                                                         ('qdasdsduoise1', now(), now(), 'uno', 'uno'),
-                                                                                         ('ldasdsdet1', now(), now(), 'uno', 'uno'),
-                                                                                         ('ldasdsdow1', now(), now(), 'uno', 'uno'),
-                                                                                         ('tdasdsde1', now(), now(), 'uno', 'uno')
-;
-
-insert into article_hashtag (article_id, hashtag_id) values
-                                                         (370, 11),
-                                                         (370, 18)
-;
+# # 300 댓글
+# insert into article_comment (article_id, user_id, parent_comment_id, content, created_at, modified_at, created_by, modified_by) values
+#                                                                                                                                     (370, 'uno', null, 'Quisque id justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros.', '2021-03-02 22:40:04', '2021-04-27 15:38:09', 'Lind', 'Orv'),
+#                                                                                                                             (370, 'uno', null, 'In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.', '2021-05-07 23:57:29', '2021-04-03 21:55:11', 'Oliver', 'Graehme')
+# ;
+#
+# -- 대댓글
+# insert into article_comment (article_id, user_id, parent_comment_id, content, created_at, modified_at, created_by, modified_by) values
+#                                                                                                                                     (370, 'uno', 1, '퍼가요~', '2021-03-02 22:40:04', '2021-04-27 15:38:09', 'Uno', 'Uno'),
+#                                                                                                                                     (370, 'uno2', 1, '퍼가요~', '2021-03-03 22:40:04', '2021-04-27 15:38:09', 'Uno2', 'Uno2'),
+#                                                                                                                                     (370, 'uno', 1, '또 퍼가요~', '2021-03-04 22:40:04', '2021-04-27 15:38:09', 'Uno', 'Uno'),
+#                                                                                                                                     (370, 'uno', 1, '또또 퍼가요~', '2021-03-05 22:40:04', '2021-04-27 15:38:09', 'Uno', 'Uno')
+# ;
+#
+# insert into hashtag (hashtag_name, created_at, modified_at, created_by, modified_by) values
+#                                                                                          ('edasdsd1', now(), now(), 'uno', 'uno'),
+#                                                                                          ('mdasdsdson1', now(), now(), 'uno', 'uno'),
+#                                                                                          ('cdasdsdia1', now(), now(), 'uno', 'uno'),
+#                                                                                          ('ddasdsdenrod1', now(), now(), 'uno', 'uno'),
+#
+#                                                                                          ('qdasdsduoise1', now(), now(), 'uno', 'uno'),
+#                                                                                          ('ldasdsdet1', now(), now(), 'uno', 'uno'),
+#                                                                                          ('ldasdsdow1', now(), now(), 'uno', 'uno'),
+#                                                                                          ('tdasdsde1', now(), now(), 'uno', 'uno')
+# ;
+#
+# insert into article_hashtag (article_id, hashtag_id) values
+#                                                          (370, 11),
+#                                                          (370, 18)
+# ;

@@ -8,7 +8,11 @@ import lombok.ToString;
 import javax.persistence.*;
 
 @Entity
-@Table
+@Table(indexes = {
+        @Index(columnList = "email", unique = true),
+        @Index(columnList = "createdAt"),
+        @Index(columnList = "createdBy")
+})
 @Getter
 @ToString(callSuper = true)
 @EqualsAndHashCode
@@ -41,6 +45,7 @@ public class User extends AuditingFields {
         this.email = email;
         this.nickname = nickname;
         this.memo = memo;
+
     }
 
     public static User of(String userId, String userPassword, String email, String nickName, String memo) {

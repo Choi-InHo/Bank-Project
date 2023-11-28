@@ -63,14 +63,15 @@ public class ArticleService {
 
     @Transactional(readOnly = true)
     public ArticleDto getArticle(Long articleId) {
-        Article article = articleRepository.findById(articleId).orElseThrow();
-        return modelMapper.map(article, ArticleDto.class);
+        return articleRepository.findById(articleId)
+                .map(ArticleDto::from)
+                .orElseThrow(() -> new EntityNotFoundException("게시글이 없습니다."));
 
     }
 
     public void updateArticle(Long articleId, ArticleDto dto) {
         try {
-            Article article = articleRepository.findById(articleId).orElseThrow();
+            Article article = articleRepository.getReferenceById(articleId);
             User user = userRepository.getReferenceById(dto.userDto().userId());
 
             if (article.getUser().equals(user)) {
@@ -78,7 +79,7 @@ public class ArticleService {
                     article.setTitle(dto.title());
                 }
                 if (dto.content() != null) {
-                    article.setTitle(dto.content());
+                    article.setContent(dto.content());
                 }
 
                 Set<Long> hashtagIds = article.getHashtags().stream()
