@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Table</title>
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            margin: 20px;
+        }
+
+        h2 {
+            color: #007bff;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #dee2e6;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: #ffffff;
+        }
+
+        tbody tr:hover {
+            background-color: #f8f9fa;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div>
+    <h2>User Table</h2>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Bank Address</th>
+            <th>Distance</th>
+            <th>Direction URL</th>
+            <th>Road View URL</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Thymeleaf 반복문을 사용하여 데이터 표시 -->
+        <tr th:each="outputFormList : ${outputFormList}" onclick="redirectToURL('${outputFormList.directionUrl}')">
+            <td th:text="${outputFormList.bankName}"></td>
+            <td th:text="${outputFormList.bankAddress}"></td>
+            <td th:text="${outputFormList.distance}"></td>
+            <td th:text="${outputFormList.directionUrl}" ></td>
+            <td th:text="${outputFormList.roadViewUrl}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    // 클릭한 URL로 이동하는 함수
+    function redirectToURL(url) {
+        if (url.trim() !== "") {
+            // window.location.href를 사용하여 페이지 이동
+            window.location.href = url;
+        }
+    }
+</script>
+
+</body>
+</html>

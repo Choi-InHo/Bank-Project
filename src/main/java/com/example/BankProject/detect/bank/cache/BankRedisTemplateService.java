@@ -20,7 +20,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class BankRedisTemplateService {
 
-    private static final String CACHE_KEY = "PHARMACY";
+    private static final String CACHE_KEY = "BANK";
 
     private final RedisTemplate<String, Object> redisTemplate;
     private final ObjectMapper objectMapper;

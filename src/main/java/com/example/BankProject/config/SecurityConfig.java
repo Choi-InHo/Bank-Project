@@ -34,16 +34,20 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         //카카오 이미지를 가져오기 위해 atCommonLocations()를 사용해줌, images파일로 만들어줘야해
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+                        .antMatchers("/search").permitAll()
                         .mvcMatchers( //여기 있는 것들은 인증을 따로 해주지 않아도됨
                                 HttpMethod.GET,
+                                "/error",
                                 "/",
                                 "/articles",
-                                "/articles/search-hashtag"
+                                "/articles/search-hashtag",
+                                "/detect"
                         ).permitAll()
                         .anyRequest().authenticated() //그 외에 말한 것들은 인증을 해야한다.
                 )
                 .formLogin(withDefaults())// withDefaults 아무일도 하지 않고, and()를 없애주는 역할만 했음
                 .logout(logout -> logout.logoutSuccessUrl("/"))
+                .csrf().disable()
                 .oauth2Login(oAuth -> oAuth
                         .userInfoEndpoint(userInfo -> userInfo
                                 .userService(oAuth2UserService)
