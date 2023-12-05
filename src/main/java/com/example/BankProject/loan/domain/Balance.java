@@ -1,14 +1,24 @@
 package com.example.BankProject.loan.domain;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.Where;
+
+import javax.persistence.*;
 import java.math.BigDecimal;
 
-public class Balance {
+@Entity
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@DynamicInsert
+@DynamicUpdate
+@Where(clause = "is_deleted=false")
+public class Balance extends BaseEntity2{
     //얼마를 집행 받아서 얼마를 갚았고 현재 얼마 남았는지에 대한 내용
-    // 얼마를 집행 받아서 얼마를 갚았고 현재 얼마 남았는지에 대한 내용
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)

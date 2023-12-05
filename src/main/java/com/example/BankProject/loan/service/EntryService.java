@@ -7,7 +7,7 @@ import com.example.BankProject.loan.dto.BalanceDTO;
 import com.example.BankProject.loan.dto.EntryDTO;
 import com.example.BankProject.loan.exception.BaseException;
 import com.example.BankProject.loan.exception.ResultType;
-import com.example.BankProject.loan.repository.ApplicationReposotory;
+import com.example.BankProject.loan.repository.ApplicationRepository;
 import com.example.BankProject.loan.repository.EntryRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -22,7 +22,7 @@ import java.util.Optional;
 public class EntryService {
 
     private final EntryRepository entryRepository;
-    private final ApplicationReposotory applicationReposotory;
+    private final ApplicationRepository applicationRepository;
     private final ModelMapper modelMapper;
     private final BalanceService balanceService;
 
@@ -65,12 +65,12 @@ public class EntryService {
         entryRepository.save(entry);
 
         Long applicationId = entry.getApplicationID();
-        balanceService.update(applicationId,
-                BalanceDTO.UpdateRequest.builder()
-                        .beforeEntryAmount(beforEntryAmount)
-                        .afterEntryAmount(request.getEntryAmount())
-                        .builder()
-                );
+//        balanceService.update(applicationId,
+//                BalanceDTO.UpdateRequest.builder()
+//                        .beforeEntryAmountel(beforeEntryAmount)
+//                        .afterEntryAmount(request.getEntryAmount())
+//                        .builder()
+//                );
         return EntryDTO.UpdateResponse.builder()
                 .applicationId(entry.getApplicationID())
                 .beforeEntryAmount(beforeEntryAmount)
@@ -89,16 +89,16 @@ public class EntryService {
         BigDecimal beforeEntryAmount = entry.getEntryAmount();
 
         Long applicationId = entry.getApplicationID();
-        balanceService.update(applicationId,
-                BalanceDTO.UpdateRequest.builder()
-                        .beforeAmount(beforeEntryAmount)
-                        .afterEntryAmount(BigDecimal.ZERO)
-                        .build()
-        );
+//        balanceService.update(applicationId,
+//                BalanceDTO.UpdateRequest.builder()
+//                        .beforeAmount(beforeEntryAmount)
+//                        .afterEntryAmount(BigDecimal.ZERO)
+//                        .build()
+//        );
     }
 
     private boolean isContractedApplication(Long applicationId){
-        Optional<Application> existed = applicationReposotory.findById(applicationId);
+        Optional<Application> existed = applicationRepository.findById(applicationId);
 
         if (existed.isEmpty()) {
             return false;
