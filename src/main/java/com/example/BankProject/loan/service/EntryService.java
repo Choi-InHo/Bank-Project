@@ -39,12 +39,12 @@ public class EntryService {
 
         entryRepository.save(entry);
 
-//        //대출 잔고 관리
-//        balanceService.create(applicationId,
-//                BalanceDTO.CreateRequest.builder()
-//                        .entryAmount(request.getEntryAmount())
-//                        .build()
-//        );
+        //대출 잔고 관리
+        balanceService.create(applicationId,
+                BalanceDTO.CreateRequest.builder()
+                        .entryAmount(request.getEntryAmount())
+                        .build()
+        );
 
         return modelMapper.map(entry, EntryDTO.Response.class);
     }
@@ -65,12 +65,12 @@ public class EntryService {
         entryRepository.save(entry);
 
         Long applicationId = entry.getApplicationID();
-//        balanceService.update(applicationId,
-//                BalanceDTO.UpdateRequest.builder()
-//                        .beforeEntryAmountel(beforeEntryAmount)
-//                        .afterEntryAmount(request.getEntryAmount())
-//                        .builder()
-//                );
+        balanceService.update(applicationId,
+                BalanceDTO.UpdateRequest.builder()
+                        .beforeEntryAmount(beforeEntryAmount)
+                        .afterEntryAmount(request.getEntryAmount())
+                        .build()
+                );
         return EntryDTO.UpdateResponse.builder()
                 .applicationId(entry.getApplicationID())
                 .beforeEntryAmount(beforeEntryAmount)

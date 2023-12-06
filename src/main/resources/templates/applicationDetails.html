@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <!-- Add necessary meta tags, styles, and links here -->
+</head>
+<body>
+<header>
+  <h1>Application Details</h1>
+</header>
+
+<section>
+  <!-- Display application details here -->
+  <p>Name: <span th:text="${application.name}"></span></p>
+  <p>Cell Phone: <span th:text="${application.cellPhone}"></span></p>
+  <p>Email: <span th:text="${application.email}"></span></p>
+  <p>Hope Amount: <span th:text="${application.hopeAmount}"></span></p>
+  <!-- Add more fields as needed -->
+
+  <a th:href="@{/applications}" class="button">Back to List</a>
+</section>
+</body>
+</html>

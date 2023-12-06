@@ -2,7 +2,9 @@ package com.example.BankProject.loan.service;
 
 
 import com.example.BankProject.loan.domain.Application;
+import com.example.BankProject.loan.domain.Counsel;
 import com.example.BankProject.loan.dto.ApplicationDTO;
+import com.example.BankProject.loan.dto.CounselDTO;
 import com.example.BankProject.loan.exception.BaseException;
 import com.example.BankProject.loan.exception.ResultType;
 import com.example.BankProject.loan.repository.ApplicationRepository;
@@ -14,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +25,13 @@ public class ApplicationService {
     private final ApplicationRepository applicationRepository;
     private final JudgmentRepository judgmentRepository;
     private final ModelMapper modelMapper;
+
+    public List<ApplicationDTO.Response> getAllApplication() {
+        List<Application> applicationList = applicationRepository.findAll();
+        return applicationList.stream()
+                .map(application -> modelMapper.map(application, ApplicationDTO.Response.class))
+                .collect(Collectors.toList());
+    }
 
     public ApplicationDTO.Response create(ApplicationDTO.Request request) {
         Application application = modelMapper.map(request, Application.class);

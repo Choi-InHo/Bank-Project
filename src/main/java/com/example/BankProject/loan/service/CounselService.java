@@ -11,6 +11,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +21,13 @@ public class CounselService {
     private final CounselRepository counselRepository;
 
     private final ModelMapper modelMapper;
+
+    public List<CounselDTO.Response> getAllCounsels() {
+        List<Counsel> counselList = counselRepository.findAll();
+        return counselList.stream()
+                .map(counsel -> modelMapper.map(counsel, CounselDTO.Response.class))
+                .collect(Collectors.toList());
+    }
 
 
     public CounselDTO.Response create(CounselDTO.Request request) {

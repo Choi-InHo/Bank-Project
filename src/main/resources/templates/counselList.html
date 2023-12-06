@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Counsel List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #fff;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        a {
+            text-decoration: none;
+            color: #3498db;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<h1>Counsel List</h1>
+<ul>
+    <li th:each="counsel : ${counselList}">
+        <div>
+            <a th:href="@{/counsels/details/{counselId}(counselId=${counsel.counselId})}" th:text="${counsel.name}"></a>
+        </div>
+    </li>
+</ul>
+<a th:href="@{/counsels/create}">Create New Counsel</a>
+</body>
+</html>

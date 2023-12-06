@@ -13,6 +13,7 @@ public class EntryDTO implements Serializable {
     @Getter
     @Setter
     public static  class Request{
+        //
         private BigDecimal entryAmount;
     }
 

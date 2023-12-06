@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Counsel Details</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      padding: 20px;
+    }
+    h1 {
+      color: #333;
+    }
+    div {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+    }
+    p {
+      margin: 0;
+      margin-bottom: 10px;
+    }
+    a {
+      text-decoration: none;
+      color: #3498db;
+      margin-right: 10px;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+<h1>Counsel Details</h1>
+<div>
+  <p th:text="'Name: ' + ${counselDetails.name}"></p>
+  <p th:text="'Cell Phone: ' + ${counselDetails.cellPhone}"></p>
+  <p th:text="'Email: ' + ${counselDetails.email}"></p>
+  <p th:text="'Memo: ' + ${counselDetails.memo}"></p>
+  <p th:text="'Address: ' + ${counselDetails.address}"></p>
+  <p th:text="'Address Detail: ' + ${counselDetails.addressDetail}"></p>
+  <p th:text="'Zip Code: ' + ${counselDetails.zipCode}"></p>
+
+  <a th:href="@{/counsels/update/{counselId}(counselId=${counselDetails.counselId})}" class="btn btn-primary">수정</a>
+  <form th:action="@{/counsels/delete/{counselId}(counselId=${counselDetails.counselId})}" method="post" id="deleteForm">
+    <button type="submit" class="btn btn-danger" onclick="return confirm('정말 삭제하겠습니까??')">삭제</button>
+  </form>
+
+  <a th:href="@{/counsels/list}">Back to Counsel List</a>
+</div>
+</body>
+</html>
