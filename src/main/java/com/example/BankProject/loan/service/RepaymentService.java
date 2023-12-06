@@ -1,4 +1,4 @@
-package com.example.BankProject.service;
+package com.example.BankProject.loan.service;
 
 
 import com.example.BankProject.loan.domain.Application;
