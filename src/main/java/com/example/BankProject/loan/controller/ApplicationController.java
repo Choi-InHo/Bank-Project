@@ -4,9 +4,11 @@ import com.example.BankProject.loan.dto.ApplicationDTO;
 import com.example.BankProject.loan.dto.CounselDTO;
 import com.example.BankProject.loan.dto.FileDTO;
 import com.example.BankProject.loan.dto.ResponseDTO;
+import com.example.BankProject.loan.exception.BaseException;
 import com.example.BankProject.loan.service.ApplicationService;
 import com.example.BankProject.loan.service.FileStorageService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,7 @@ import java.util.stream.Collectors;
 import static com.example.BankProject.loan.dto.ResponseDTO.ok;
 
 @Controller
+@Slf4j
 @RequestMapping("/applications")
 @RequiredArgsConstructor
 public class ApplicationController {
@@ -34,9 +37,10 @@ public class ApplicationController {
     @GetMapping("/list")
     public String getApplicationList(Model model) {
         List<ApplicationDTO.Response> applicationList = applicationService.getAllApplication();
-        model.addAttribute("application", applicationList);
+        model.addAttribute("applications", applicationList);
         return "applicationList";
     }
+
 
     @GetMapping("/create")
     public String showCreateForm(Model model) {
@@ -45,9 +49,18 @@ public class ApplicationController {
     }
 
     @PostMapping
-    public String create(@ModelAttribute ApplicationDTO.Request request) {
+    public String create(@ModelAttribute("application") ApplicationDTO.Request request, @RequestPart("file") MultipartFile file) {
         ApplicationDTO.Response response = applicationService.create(request);
         Long applicationId = response.getApplicationId();
+
+        if (file != null && !file.isEmpty()) {
+            try {
+                fileStorageService.save(applicationId, file);
+            } catch (BaseException e) {
+                log.error("Error while saving file", e);
+                // Handle the exception as needed
+            }
+        }
         return "redirect:/applications/" + applicationId;
     }
 
@@ -55,17 +68,23 @@ public class ApplicationController {
     @GetMapping("/{applicationId}")
     public String get(@PathVariable Long applicationId, Model model) {
         ApplicationDTO.Response response = applicationService.get(applicationId);
-        model.addAttribute("application", response);
+        model.addAttribute("app", response);
+
+        List<FileDTO> fileInfos = fileStorageService.loadAll(applicationId)
+                .map(path -> new FileDTO(path.getFileName().toString(), path.toString()))
+                .collect(Collectors.toList());
+        model.addAttribute("fileInfos", fileInfos);
+
         return "applicationDetails";
     }
 
-    @DeleteMapping("/{applicationId}")
+    @PostMapping("/delete/{applicationId}")
     public String delete(@PathVariable Long applicationId) {
         applicationService.delete(applicationId);
-        return "redirect:/applications";
+        return "redirect:/applications/list";
     }
 
-    @PutMapping("/update/{applicationId}")
+    @GetMapping("/update/{applicationId}")
     public String showUpdateForm(@PathVariable Long applicationId, Model model) {
         ApplicationDTO.Response applicationDetails = applicationService.get(applicationId);
         model.addAttribute("applicationId", applicationId);
@@ -116,6 +135,12 @@ public class ApplicationController {
         }).collect(Collectors.toList());
 
         return ok(fileInfos);
+    }
+
+    @GetMapping("/{applicationId}/deleteFile")
+    public String deleteFile(@PathVariable Long applicationId) {
+        fileStorageService.deleteAll(applicationId);
+        return "redirect:/applications/" + applicationId;
     }
 
     @GetMapping("/contract/{applicationId}")

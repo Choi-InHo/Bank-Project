@@ -1,22 +1,194 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <!-- Add necessary meta tags, styles, and links here -->
+
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+  <!-- Popper.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+
+  <!-- Bootstrap JS -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+
+
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Application Details</title>
+  <style>
+    /* 스타일은 필요에 따라 수정 가능합니다. */
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background-color: #f7f7f7;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    header {
+      background-color: #03c75a;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      font-size: 24px;
+    }
+
+    .container {
+      width: 80%;
+      margin: 20px auto;
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #03c75a;
+      color: white;
+    }
+
+    td a {
+      color: #03c75a;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    td a:hover {
+      text-decoration: underline;
+    }
+
+    /* 모달 스타일 */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgb(0,0,0);
+      background-color: rgba(0,0,0,0.4);
+      padding-top: 60px;
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: 5% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+    }
+
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
 <header>
   <h1>Application Details</h1>
 </header>
 
-<section>
-  <!-- Display application details here -->
-  <p>Name: <span th:text="${application.name}"></span></p>
-  <p>Cell Phone: <span th:text="${application.cellPhone}"></span></p>
-  <p>Email: <span th:text="${application.email}"></span></p>
-  <p>Hope Amount: <span th:text="${application.hopeAmount}"></span></p>
-  <!-- Add more fields as needed -->
+<div class="container">
+  <h2>Application Information</h2>
+  <table>
+    <tbody>
+    <tr>
+      <th>신청인</th>
+      <td th:text="${app.name}"></td>
+    </tr>
+    <tr>
+      <th>전화 번호</th>
+      <td th:text="${app.cellPhone}"></td>
+    </tr>
+    <tr>
+      <th>이메일</th>
+      <td th:text="${app.email}"></td>
+    </tr>
+    <tr>
+      <th>신청 금액</th>
+      <td th:text="${app.hopeAmount}"></td>
+    </tr>
+    </tbody>
+  </table>
 
-  <a th:href="@{/applications}" class="button">Back to List</a>
-</section>
+  <h2>File Information</h2>
+  <table>
+    <tbody>
+    <tr>
+      <th>File Name</th>
+      <th>Actions</th>
+    </tr>
+    <!-- 파일 목록 출력 -->
+    <tr th:each="fileInfo, stat : ${fileInfos}">
+      <td th:text="${fileInfo.name}"></td>
+      <td>
+        <a th:href="@{'/applications/' + ${applicationId} + '/download?filename=' + ${fileInfo.name}}">Download</a>
+        <!-- 삭제 버튼 (JavaScript를 사용하는 방법) -->
+<!--        <form th:action="@{'/judgments/delete/' + ${judgment.judgmentId}}" method="post" id="deleteForm">-->
+<!--          <button type="submit" class="btn btn-danger" onclick="return confirm('정말 삭제하겠습니까??')">삭제</button>-->
+<!--        </form>-->
+      </td>
+    </tr>
+
+
+    </tbody>
+
+  </table>
+
+  <!-- "심사하기" 버튼 추가 -->
+  <a th:href="@{/judgments/create/{applicationId}(applicationId=${app.applicationId})}">심사하기</a>
+  <!-- Judgment 결과 보기 버튼 -->
+  <a th:href="@{/judgments/view/{applicationId}(applicationId=${app.applicationId})}">심사하기</a>
+
+
+
+
+  <a th:href="@{/applications/update/{applicationId}(applicationId=${app.applicationId})}">수정</a>
+
+  <!-- 삭제 버튼 (JavaScript를 사용하는 방법) -->
+
+  <form th:action="@{/applications/delete/{counselId}(counselId=${app.applicationId})}" method="post" id="deleteForm">
+    <button type="submit" class="btn btn-danger" onclick="return confirm('정말 삭제하겠습니까??')">삭제</button>
+  </form>
+
+
+
+</div>
+
+
+
 </body>
 </html>
