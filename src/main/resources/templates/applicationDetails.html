@@ -169,9 +169,14 @@
   </table>
 
   <!-- "심사하기" 버튼 추가 -->
-  <a th:href="@{/judgments/create/{applicationId}(applicationId=${app.applicationId})}">심사하기</a>
-  <!-- Judgment 결과 보기 버튼 -->
-  <a th:href="@{/judgments/view/{applicationId}(applicationId=${app.applicationId})}">심사하기</a>
+  <!-- "심사하기" 버튼 추가 -->
+  <a th:if="${!hasJudgment}" th:href="@{/judgments/create/{applicationId}(applicationId = ${app.applicationId})}" class="btn btn-primary" data-applicationId="${app.applicationId}">심사하기</a>
+
+
+  <!-- 디테일 부분에서 심사보기 버튼 -->
+  <a th:if="${hasJudgment}" class="btn btn-primary" th:data-application-url="@{/judgments/view/{applicationId}(applicationId=${app.applicationId})}" onclick="openJudgmentModal(this)">심사보기</a>
+
+
 
 
 
@@ -187,6 +192,27 @@
 
 
 </div>
+
+<!-- 심사 정보를 표시할 모달 -->
+<div id="judgmentModal" class="modal">
+  <div class="modal-content">
+    <!-- JavaScript에서 동적으로 채워질 부분 -->
+  </div>
+</div>
+
+<!-- JavaScript 코드 -->
+<script>
+  function openJudgmentModal(link) {
+    var applicationUrl = $(link).data('application-url');
+    // 모달 창에 심사 정보를 동적으로 로드
+    $.get(applicationUrl, function(data) {
+      $('#judgmentModal .modal-content').html(data);
+      $('#judgmentModal').show();
+    });
+  }
+
+
+</script>
 
 
 

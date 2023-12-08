@@ -1,12 +1,12 @@
 package com.example.BankProject.loan.controller;
 
-import com.example.BankProject.loan.dto.ApplicationDTO;
-import com.example.BankProject.loan.dto.CounselDTO;
-import com.example.BankProject.loan.dto.FileDTO;
-import com.example.BankProject.loan.dto.ResponseDTO;
+import com.example.BankProject.loan.domain.Judgment;
+import com.example.BankProject.loan.dto.*;
 import com.example.BankProject.loan.exception.BaseException;
+import com.example.BankProject.loan.repository.JudgmentRepository;
 import com.example.BankProject.loan.service.ApplicationService;
 import com.example.BankProject.loan.service.FileStorageService;
+import com.example.BankProject.loan.service.JudgmentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
@@ -32,8 +32,10 @@ public class ApplicationController {
 
     private final ApplicationService applicationService;
     private final FileStorageService fileStorageService;
+    private final JudgmentRepository judgmentRepository;
+    private final JudgmentService judgmentService;
 
-    // 상담 목록 조회 페이지
+
     @GetMapping("/list")
     public String getApplicationList(Model model) {
         List<ApplicationDTO.Response> applicationList = applicationService.getAllApplication();
@@ -73,7 +75,18 @@ public class ApplicationController {
         List<FileDTO> fileInfos = fileStorageService.loadAll(applicationId)
                 .map(path -> new FileDTO(path.getFileName().toString(), path.toString()))
                 .collect(Collectors.toList());
+
+        // Judgment 정보 가져오기
+        JudgmentDTO.Response judgment = judgmentService.getJudgmentOfApplication(applicationId);
+        if (judgment != null) {
+            // Judgment가 있는 경우, 디테일 부분에서 심사보기 버튼만 표시
+            model.addAttribute("hasJudgment", true);
+        } else {
+            // Judgment가 없는 경우, 디테일 부분에서 심사하기 버튼만 표시
+            model.addAttribute("hasJudgment", false);
+        }
         model.addAttribute("fileInfos", fileInfos);
+
 
         return "applicationDetails";
     }

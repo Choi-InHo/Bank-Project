@@ -13,6 +13,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+
+import static com.example.BankProject.loan.domain.QJudgment.judgment;
 
 @Service
 @RequiredArgsConstructor
@@ -45,15 +49,12 @@ public class JudgmentService {
     }
 
     public JudgmentDTO.Response getJudgmentOfApplication(Long applicationId) {
-        if (!isPresentApplication(applicationId)) {
-            throw new BaseException(ResultType.SYSTEM_ERROR);
-        }
 
-        Judgment judgment = judgmentRepository.findByApplicationId(applicationId).orElseThrow(() -> {
-            throw new BaseException(ResultType.SYSTEM_ERROR);
-        });
 
-        return modelMapper.map(judgment, JudgmentDTO.Response.class);
+        Optional<Judgment> optionalJudgment = judgmentRepository.findByApplicationId(applicationId);
+
+
+        return modelMapper.map(optionalJudgment, JudgmentDTO.Response.class);
 
 
     }
