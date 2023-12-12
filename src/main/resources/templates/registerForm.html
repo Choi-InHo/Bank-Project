@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Register Massage Chair</title>
+</head>
+<body>
+
+<h2>Register Massage Chair</h2>
+
+<form th:action="@{/massage-chair/register}" method="post">
+  <label for="prodGrpId">Product Group ID:</label>
+  <input type="text" id="prodGrpId" name="prodGrpId" required>
+
+  <label for="productId">Product ID:</label>
+  <input type="text" id="productId" name="productId" required>
+
+  <label for="price">Price:</label>
+  <input type="number" id="price" name="price" required>
+
+  <button type="submit">Register</button>
+</form>
+
+</body>
+</html>

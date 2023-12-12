@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product List</title>
+</head>
+<body>
+
+<h2>Product List</h2>
+
+<table border="1">
+  <thead>
+  <tr>
+    <th>Product Name</th>
+    <th>Price</th>
+  </tr>
+  </thead>
+  <tbody>
+  <!-- Thymeleaf 반복문을 사용하여 상품 목록을 표시 -->
+  <tr th:each="product : ${products}">
+    <td th:text="${product.value}"></td>
+    <td th:text="${product.score}"></td>
+  </tr>
+  </tbody>
+</table>
+
+</body>
+</html>

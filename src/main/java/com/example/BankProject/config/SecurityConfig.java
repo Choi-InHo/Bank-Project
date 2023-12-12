@@ -17,6 +17,7 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 import java.util.UUID;
 
@@ -34,14 +35,15 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         //카카오 이미지를 가져오기 위해 atCommonLocations()를 사용해줌, images파일로 만들어줘야해
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                        .antMatchers("/search").permitAll()
+                        .antMatchers("/search","/swagger-ui.html", "/v2/api-docs", "/webjars/**", "/swagger-resources/**").permitAll()
                         .mvcMatchers( //여기 있는 것들은 인증을 따로 해주지 않아도됨
                                 HttpMethod.GET,
                                 "/error",
                                 "/",
                                 "/articles",
                                 "/articles/search-hashtag",
-                                "/detect"
+                                "/detect",
+                                "/swagger-ui.html"
                         ).permitAll()
                         .anyRequest().authenticated() //그 외에 말한 것들은 인증을 해야한다.
                 )

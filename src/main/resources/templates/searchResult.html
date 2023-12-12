@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search Result</title>
+</head>
+<body>
+
+<h1>Search Result for Keyword: <span th:text="${keywordInfo.keyword}"></span></h1>
+
+<table border="1">
+  <tr>
+    <th>Product Group ID</th>
+    <th>Products</th>
+  </tr>
+  <tr th:each="productGrp : ${keywordInfo.productGrpList}">
+    <td th:text="${productGrp.prodGrpId}"></td>
+    <td>
+      <ul>
+        <li th:each="product : ${productGrp.productList}">
+          <span th:text="${product.productId}"></span> - $<span th:text="${product.price}"></span>
+        </li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>
