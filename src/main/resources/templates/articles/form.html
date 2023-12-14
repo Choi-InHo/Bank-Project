@@ -6,11 +6,41 @@
     <meta name="description" content="">
     <meta name="author" content="Uno Kim">
     <title>새 게시글 등록</title>
+    <style>
+        .title2 {
+            background-color: rgb(40,40,40);
+            color: #ffffff;
+            text-align: center;
+            font-size: 2em;
+            font-weight: bold;
+        }
+        footer {
+            width: 100%;
+            height: 50px;
+            bottom: 0;
+            position: fixed;
+            background: rgb(40, 40, 40);
+            color: white;
+            text-align: left;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+            margin-left: 10px;
+        }
+    </style>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 </head>
 
 <body>
+<div class = "title2">
+    금융 홈페이지에 오신 걸 환영합니다!
+</div>
 
 <header id="header">
     헤더 삽입부
@@ -44,9 +74,10 @@
     </form>
 </div>
 
-<footer id="footer">
+<footer>
+    <div>© 은행 프로젝트</div>
+    <div><a href="/">home</a></div>
     <hr>
-    푸터 삽입부
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>

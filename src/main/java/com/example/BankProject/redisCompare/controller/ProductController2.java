@@ -36,7 +36,7 @@ public class ProductController2 {
 
     @GetMapping("/search")
     public String showSearchForm() {
-        return "searchForm";
+        return "registerForm";
     }
 
     @PostMapping("/search")
