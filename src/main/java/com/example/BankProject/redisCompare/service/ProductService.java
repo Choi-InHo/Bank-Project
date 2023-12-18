@@ -84,7 +84,7 @@ public class ProductService {
 
         // 가격순으로 정렬
         List<Product> sortedProducts = productList.stream()
-                .sorted(Comparator.comparingInt(Product::getPrice))
+                .sorted(Comparator.comparingDouble(Product::getPrice))
                 .collect(Collectors.toList());
 
         return sortedProducts;

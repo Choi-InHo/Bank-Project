@@ -26,12 +26,25 @@ public class ProductController2 {
     public String registerMassageChair(
             @RequestParam String prodGrpId,
             @RequestParam String productId,
-            @RequestParam int price
+            @RequestParam String price,
+            @RequestParam String imageUrl,
+            @RequestParam String productUrl
     ) {
         Product product = new Product();
         product.setProdGrpId(prodGrpId);
         product.setProductId(productId);
-        product.setPrice(price);
+        try {
+            // 문자열로 받은 price를 double로 변환
+            double priceValue = Double.parseDouble(price);
+            product.setPrice(priceValue);
+        } catch (NumberFormatException e) {
+            // 예외 처리: 숫자로 변환할 수 없는 경우
+            // 원하는 방식으로 처리하거나 오류 메시지를 추가할 수 있음
+            e.printStackTrace();
+        }
+
+        product.setImageUrl(imageUrl);
+        product.setProductUrl(productUrl);
 
         productService.registerMassageChair(product);
         return "redirect:/massage-chair/register";

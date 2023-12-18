@@ -8,5 +8,7 @@ public class Product {
 
     private String prodGrpId;
     private String productId;
-    private int price;
+    private double price;
+    private String imageUrl;
+    private String productUrl;
 }

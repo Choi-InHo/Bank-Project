@@ -209,27 +209,41 @@
         <table border="1">
             <thead>
             <tr>
-                <th>대출 상품</th>
                 <th>은행</th>
-                <th>금리</th>
+                <th>대출 상품</th>
+                <th>최저 금리</th>
+                <th>대출 보기</th>
             </tr>
             </thead>
             <tbody>
-            <!-- Check if products is not empty before iterating -->
-            <th:block th:if="${not #lists.isEmpty(products)}">
-                <tr th:each="product : ${products}">
-                    <td th:text="${product.productId}"></td>
-                    <td th:text="${product.prodGrpId}"></td>
-                    <td th:text="${product.price}"></td>
-                </tr>
-            </th:block>
-            <!-- Display a message when no products are found -->
-            <th:block th:if="${#lists.isEmpty(products)}">
-                <tr>
-                    <td colspan="3">원하시는 은행의 대출 상품이 없습니다.</td>
-                </tr>
-            </th:block>
+            <tr th:each="product : ${products}">
+                <td>
+                    <!-- 이미지 표시 -->
+                    <img th:src="${product.imageUrl}" alt="Product Image" style="max-width: 100px; max-height: 100px;">
+                </td>
+                <td th:text="${product.productId}"></td>
+                <td th:text="${product.price}"></td>
+                <td>
+                    <a th:href="${product.productUrl}" target="_blank" th:text="바로가기"></a>
+                </td>
+            </tr>
             </tbody>
+<!--            <tbody>-->
+<!--            &lt;!&ndash; Check if products is not empty before iterating &ndash;&gt;-->
+<!--            <th:block th:if="${not #lists.isEmpty(products)}">-->
+<!--                <tr th:each="product : ${products}">-->
+<!--                    <td th:text="${product.productId}"></td>-->
+<!--                    <td th:text="${product.prodGrpId}"></td>-->
+<!--                    <td th:text="${product.price}"></td>-->
+<!--                </tr>-->
+<!--            </th:block>-->
+<!--            &lt;!&ndash; Display a message when no products are found &ndash;&gt;-->
+<!--            <th:block th:if="${#lists.isEmpty(products)}">-->
+<!--                <tr>-->
+<!--                    <td colspan="3">원하시는 은행의 대출 상품이 없습니다.</td>-->
+<!--                </tr>-->
+<!--            </th:block>-->
+<!--            </tbody>-->
         </table>
     </div>
 </div>

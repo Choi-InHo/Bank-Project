@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -17,8 +19,8 @@ public class Base62Service {
 
     //인코딩하기 위한 메서드
     public String encodeDirectionId(Long directionId) {
-        return new String(base62Instance.encode(String.valueOf(directionId).getBytes()));
-
+//        return new String(base62Instance.encode(String.valueOf(directionId).getBytes()));
+        return new String(base62Instance.encode(String.valueOf(directionId).getBytes(StandardCharsets.UTF_8))); // 수정 후
     }
 
     //디코딩하기 위한 메서드

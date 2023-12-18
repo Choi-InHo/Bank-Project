@@ -217,27 +217,26 @@
 
 
         <div>
-            <h2>User Table</h2>
+            <h2>검색 결과</h2>
 
             <table>
                 <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Age</th>
-                    <th>Bank Address</th>
-                    <th>Distance</th>
-                    <th>Direction URL</th>
-                    <th>Road View URL</th>
+                    <th>은행 이름</th>
+                    <th>은행 주소</th>
+                    <th>거리</th>
+                    <th>로드 뷰</th>
                 </tr>
                 </thead>
                 <tbody>
                 <!-- Thymeleaf 반복문을 사용하여 데이터 표시 -->
-                <tr th:each="outputFormList : ${outputFormList}" onclick="redirectToURL('${outputFormList.directionUrl}')">
+                <tr th:each="outputFormList : ${outputFormList}" >
                     <td th:text="${outputFormList.bankName}"></td>
                     <td th:text="${outputFormList.bankAddress}"></td>
                     <td th:text="${outputFormList.distance}"></td>
-                    <td th:text="${outputFormList.directionUrl}" ></td>
-                    <td th:text="${outputFormList.roadViewUrl}"></td>
+                    <td>
+                        <a th:href="${outputFormList.roadViewUrl}" target="_blank">뷰 보기</a>
+                    </td>
                 </tr>
                 </tbody>
             </table>
