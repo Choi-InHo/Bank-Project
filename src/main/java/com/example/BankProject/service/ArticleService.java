@@ -150,7 +150,6 @@ public class ArticleService {
         return articleRepository.findByHashtagNames(List.of(hashtagName), pageable)
                 .map(ArticleDto::from);
     }
-
     public List<String> getHashtags(){
         return hashtagRepository.findAllHashtagNames();
     }
